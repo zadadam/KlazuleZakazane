@@ -37,6 +37,12 @@ def wersjeDoWyszukiwania(tekst):
     # teraz robimy uzmiennienie ze wzgledu na (...)
     protrojneKropki = (tekst.replace('(...)', '*')).replace('...','*')
     wersje['kropki'] = protrojneKropki
+
+    #uzmiennienie ze wzgledu na liczby
+    bezLiczb = re.sub("\d+", "*", protrojneKropki)
+    wersje['bezLiczb'] = bezLiczb
+    print bezLiczb
+    print
     #print wersje
     return wersje
 
