@@ -17,18 +17,14 @@ def przeprocesujKlauzule(string):
 def sygnaturaAktDlaSAOS(syg):
     """zwracana krotka: <rzymskie> <kodSadu> <numer>/<rok>"""
     pattern = r'(\w+) (\w+)\s*(\d+)/(\d+)'
-    m = re.match(pattern, syg, re.LOCALE)
-    print syg
+    m = re.findall(pattern, syg, re.LOCALE)
     saos = ()
     if m:
-        print m.group(0)
-        print m.group(1)
-        print m.group(2)
-        print m.group(3)
-        saos = (m.group(0),m.group(1),m.group(2),m.group(3))
-        print saos
+        saos = m[0]
+        #print saos
     else:
         print "WARNING!!!"
+        print syg
         pass
     return saos
 
@@ -72,6 +68,8 @@ def grabData(sheet):
         # to sie przyda do synonimow
         line['wyszukiwanie'] = wersjeDoWyszukiwania(line['klauzula']) # wersje dla wyszukiwarki
         line['saos'] = sygnaturaAktDlaSAOS(line['syg'])
+        if not line['saos']:
+            print line['lp']
         data[ii] = line
         ii += 1
     return data
@@ -84,4 +82,4 @@ if __name__ == "__main__":
     wb = load_workbook(filename = 'klauzule_min_160923.xlsx')
     w = wb[wb.get_sheet_names()[0]]
     data = grabData(w)
-    #writeOut(data, out)
+    writeOut(data, out)
