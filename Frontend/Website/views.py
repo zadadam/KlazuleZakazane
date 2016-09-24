@@ -21,3 +21,12 @@ def handlePost(request):
         else:
             agreementContent = handle_uploaded_text_file(f)
     return HttpResponse(template.render({'agreementContent': agreementContent}, request))
+
+def info(request):
+    template = loader.get_template('Website/info.html')
+    return HttpResponse(template.render({}, request))
+
+
+def contact(request):
+    template = loader.get_template('Website/contact.html')
+    return HttpResponse(template.render({}, request))

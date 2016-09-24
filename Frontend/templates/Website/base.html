@@ -17,13 +17,37 @@
              float: left;
              margin-left: 2%;
          }
+         #logo, #sprawdz {
+             margin-left: 10%;
+         }
+         #menu {
+             position:fixed;
+             left: 0;
+             top: 0;
+         }
+         .menu-item {
+              height: 50px;
+         }
+         ul {
+             list-style-type: none;
+             margin:0;
+             padding:0;
+
+        };
+
      </style>
 </head>
 <body>
 {% load static %}
-<img src="{% static "Website/serduszko.jpg" %}"/>
+
+<img src="http://students.mimuw.edu.pl/~pp277613/placehlder.svg" id="logo"/>&nbsp&nbsp&nbsp&nbsp&nbsp
+<a href="/"><img class="menu-item" src="http://students.mimuw.edu.pl/~pp277613/home.svg"/></a>&nbsp&nbsp
+<a href="info"><img class="menu-item" src="http://students.mimuw.edu.pl/~pp277613/info.svg"/></a>&nbsp&nbsp
+<a href="contact"><img class="menu-item" src="http://students.mimuw.edu.pl/~pp277613/mail.svg"/></a>&nbsp&nbsp
+<br/><br/>
 
 {% block page %} {% endblock %}
+
 
 </body>
 </html>

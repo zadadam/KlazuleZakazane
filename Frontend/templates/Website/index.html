@@ -4,17 +4,17 @@
 <form action="/" method="post" enctype="multipart/form-data">
 <table><tr><td>
     <div id="left">
-         <textarea rows="3" cols="50" placeholder="Paste your agreement here" name="pastedAgreement">{{ agreementText }}</textarea>
+         <textarea rows="3" cols="50" placeholder="Wklej tekst umowy" name="pastedAgreement">{{ agreementText }}</textarea>
     </div>
     <div id="middle">
-        or select file to upload:
+        lub wgraj plik:
     </div>
     <div id="right">
         <input type="file" name="fileToUpload" id="fileToUpload" class="btn btn-default btn-lg">
     </div>
 </td></tr></table>
     <br/>
-<button type="submit" value="Upload" name="submit" class="btn btn-warning">Check</button>
+<button type="submit" id='sprawdz'  value="Upload" name="submit" class="btn btn-danger">Sprawdź</button>
 {% csrf_token %}
 </form>
 {{ agreementContent }}
