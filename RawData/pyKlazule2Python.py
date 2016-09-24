@@ -4,6 +4,7 @@ import codecs
 import datetime
 import json
 import re
+from simpleText import replacePol
 
 data = "klauzule_min_160923.xlsx"
 out = "klauzulePython.json"
@@ -49,13 +50,14 @@ def grabData(sheet):
     for row in w.iter_rows(min_row=2, max_col=10, max_row=6627): # wszystkie rzedy poza naglowkami
         line = {}
         skipRow = False
+        print ii
         for jj,cell in enumerate(row):
             value = cell.value
             if value == None and jj ==6: # ta linia mowi o tym, ze nie mamy naglowka
                 skipRow = True
                 break
             if jj == 6: # klauzule maja zwyczaj miec " na poczatku i na koncu
-                line[naglowki[jj]] = przeprocesujKlauzule(value)
+                line[naglowki[jj]] = replacePol(przeprocesujKlauzule(value))
                 #print przeprocsujKlauzule(cell.value)
             else:
                 line[naglowki[jj]] = value
