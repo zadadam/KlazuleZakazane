@@ -30,7 +30,9 @@ def grabData(sheet):
                 #print cell.value
             #print type(cell.value)
 
-        #print line
+        line['parent'] = line['lp'] # dla kazdej bazowej klauzuli jego rodzic to numer porzadkowy na liscie
+        # to sie przyda do synonimow
+        line['wyszukiwanie'] = [] # wersje dla wyszukiwarki
         data[ii] = line
         ii += 1
     return data
