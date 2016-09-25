@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from openpyxl import load_workbook
 from bson import json_util
 import codecs
@@ -12,6 +14,23 @@ out = "klauzulePython.json"
 
 naglowki = ['lp','wyrokData','syg','sad','powod','pozwani','klauzula','wpisData','uwagi','branza']
 dodatkowe = ['parent','wyszukiwanie','saos']
+
+zleZnaki = {
+    u'\'' : u'',
+    u'\"' : u'',
+    u'\u2013' :u'-',
+    u'\xa7' : u'', # pownien byc znak paragrafu
+    u'\u201d' : u'',
+    u'\u201D' : u'',
+    u'\u201e' : u'',
+    u'\u2026' : u'',
+}
+
+def usunZleZnaki(text):
+    for kk in zleZnaki.keys():
+        text2 = text.replace(kk, zleZnaki[kk])
+        text = text2
+    return text
 
 def przeprocesujKlauzule(string):
     return string[1:-1]
@@ -32,66 +51,84 @@ def sygnaturaAktDlaSAOS(syg):
     return saos
 
 
-def wersjeDoWyszukiwania(tekst):
-    wersje = {}
-    wersje['wprost'] = tekst
-
-    # teraz robimy uzmiennienie ze wzgledu na (...)
-    protrojneKropki = (tekst.replace('(...)', '*')).replace('...','*')
-    wersje['kropki'] = protrojneKropki
-
+def wersjaDoWyszukiwania(tekst):
+    tekst2 = tekst.lower()
+    slowa = re.findall(r'(\w+)', tekst2, re.UNICODE)
+    #print slowa
+    out = u' '.join(slowa)
+    
     #uzmiennienie ze wzgledu na liczby
-    bezLiczb = re.sub("\d+", "*", protrojneKropki)
-    wersje['bezLiczb'] = bezLiczb
-
-    #wersje['slowa']
-    print bezLiczb
-    print
-    #print wersje
-    return wersje
+    bezLiczb = re.sub(r'\d+', u'', out)
+    #print bezLiczb
+    return bezLiczb
 
 def znajdzGwiazdki(tekst):
     print tekst.count(u'...')
     print tekst.count(u'...')
 
 def grabData(sheet):
-    data = {}
+    data = []
     ii = 0
     for row in w.iter_rows(min_row=2, max_col=10, max_row=6627): # wszystkie rzedy poza naglowkami
-        line = {}
+        line = []
         skipRow = False
-        print ii
         for jj,cell in enumerate(row):
             value = cell.value
+
             if value == None and jj ==6: # ta linia mowi o tym, ze nie mamy naglowka
                 skipRow = True
                 break
-            if jj == 6: # klauzule maja zwyczaj miec " na poczatku i na koncu
-                line[naglowki[jj]] = replacePol(przeprocesujKlauzule(value))
+            if not value:
+                line.append("")
+            if jj == 0:
+                line.append(str(value))
+            elif (jj == 1 or jj == 7) and value:
+                #print value
+                if type(value) == type(u'test'):
+                    line.append(value)
+                else:
+                    line.append(str(value.date()))
+                #     line[naglowki[jj]] = str(value)
+            elif jj == 6: # klauzule maja zwyczaj miec " na poczatku i na koncu
+                line.append(usunZleZnaki(value))
+                
                 #print przeprocsujKlauzule(cell.value)
+            elif jj == 0:
+                line.append(value)
             else:
-                line[naglowki[jj]] = value
-                #print cell.value
-            #print type(cell.value)
+                line.append(value)
+                
         if skipRow: # musimy wyskoczyc z dwoch petli
             continue
 
-        line['parent'] = line['lp'] # dla kazdej bazowej klauzuli jego rodzic to numer porzadkowy na liscie
+        line.append(line[0]) # dla kazdej bazowej klauzuli jego rodzic to numer porzadkowy na liscie
         # to sie przyda do synonimow
-        line['wyszukiwanie'] = wersjeDoWyszukiwania(line['klauzula']) # wersje dla wyszukiwarki
-        line['saos'] = sygnaturaAktDlaSAOS(line['syg'])
-        if not line['saos']:
-            print line['lp']
-        data[ii] = line
+        #line['wyszukiwanie'] = wersjeDoWyszukiwania(line['klauzula']) # wersje dla wyszukiwarki
+        line.append(sygnaturaAktDlaSAOS(line[2]))
+        line.append(wersjaDoWyszukiwania(line[6]))
+        #if not line['saos']:
+        #    print line['lp']
+        data.append(line)
         ii += 1
     return data
 
-def writeOut(data, out):
-    with open(out, 'w') as f:
-        json.dump(data, f, default=json_util.default)
 
+
+
+
+def writeOut(data, out):
+    for line in data:
+        linia = u''
+        for ii,e in enumerate(line):
+            if ii != 0:
+                linia += u';'
+            linia = linia + unicode(e)
+        print linia
+        #print u';'.join(l)
+    #print data
+    
 if __name__ == "__main__":
     wb = load_workbook(filename = 'klauzule_min_160923.xlsx')
     w = wb[wb.get_sheet_names()[0]]
     data = grabData(w)
-    writeOut(data, out)
+    #writeOut(data, out)
