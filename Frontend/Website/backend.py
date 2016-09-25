@@ -38,28 +38,30 @@ def make_rev_idx(file_name_csv):
 dane_klauzul, dane_org = make_rev_idx(u"../RawData/out.csv")
 
 
+import numpy as np
+
 def crawly(umowa, klauzula, threshold):
-    i, j , k, um_length, kl_length, counter = 0, 0, 0, len(umowa), len(klauzula), 0
-    while (i < um_length):
-        if (umowa[i]==klauzula[0]):
-            k = i
-            while (counter <= threshold and i<um_length):
-                #print type(umowa[i])
-                #print type(klauzula[j]) # to musi byc utf8
-                while ((umowa[i]==klauzula[j]) & (j + 1 < kl_length) & (i + 1 < um_length)):
-                    j += 1
-                    i += 1
-                counter += 1
-                i += 1
-            if (j == kl_length - 1):
-                return i + 1 - kl_length - counter
-            else:
-                i = k + 1
-                j = 0
-                counter = 0
-        else:
-            i += 1
-    return -1
+   if (len(umowa) <= len(klauzula)):
+       return (-1, -1)
+   i, j , k, um_length, kl_length, counter = 0, 0, 0, len(umowa), len(klauzula), 0
+   while (i < um_length):
+       if (umowa[i]==klauzula[0]):
+           k = i
+           while (counter <= threshold and i + 1 < um_length):
+               while ((umowa[i]==klauzula[j]) & (j + 1 < kl_length) & (i + 1 < um_length)):
+                   j += 1
+                   i += 1
+               counter += 1
+               i += 1
+           if (j == kl_length - 1):
+               return (i + 1 - kl_length - counter, i )# + counter)
+           else:
+               i = k + 1
+               j = 0
+               counter = 0
+       else:
+           i += 1
+   return -1, -1
 
 
 def odpalSzukanie(umowa_org, precyzja):
@@ -67,10 +69,10 @@ def odpalSzukanie(umowa_org, precyzja):
     odpowiedz = []
     for id_klauzula, klauzula in dane_klauzul.iteritems():
         klauzula_temp = klauzula.split()
-        result = crawly(umowa, klauzula_temp, precyzja)
+        result, end_poz = crawly(umowa, klauzula_temp, precyzja)
         # print result
         if (result > -1):
-            frg_umowy = umowa[result:result+len(dane_org[id_klauzula].split())]
+            frg_umowy = umowa[result:end_poz]
             odpowiedz.append({"umowa": " ".join(frg_umowy), "klauzula":dane_org[id_klauzula], "odnosnik":""})
     #[{umowa: "", klauzula:"",odnosnik"" }]
     return odpowiedz
