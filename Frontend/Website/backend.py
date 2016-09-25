@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import codecs
+
 def make_rev_idx(file_name_csv):
     header=True
     kol_id=0
     kol_klauzuli=-1
-    separator=';'
-    klauzule = open(file_name_csv).read().splitlines()
+    separator=";"
+    #klauzule = open(file_name_csv).read().splitlines()
+    klauzule = codecs.open(file_name_csv, "r", "utf-8").readlines()
+    #print type(klauzule[0])
 
     i=0;
     if header:
@@ -37,8 +41,8 @@ def crawly(umowa, klauzula, threshold):
         if (umowa[i]==klauzula[0]):
             k = i
             while (counter <= threshold):
-                print type(umowa[i])
-                print type(klauzula[j]) # to musi byc utf8
+                #print type(umowa[i])
+                #print type(klauzula[j]) # to musi byc utf8
                 while ((umowa[i]==klauzula[j]) & (j + 1 < kl_length) & (i + 1 < um_length)):
                     j += 1
                     i += 1
@@ -61,6 +65,9 @@ def odpalSzukanie(umowa, precyzja):
     for id_klauzula, klauzula in dane_klauzul.iteritems():
         klauzula_temp = klauzula.split()
         result = crawly(umowa, klauzula_temp, precyzja)
+        # print result
         if (result > -1):
-            odpowiedz[id_klauzula] = result
+            odpowiedz[id_klauzula] = {"umowa": "", "klauzula":result, "odnosnik":"" }#result
+            print odpowiedz
+    #[{umowa: "", klauzula:"",odnosnik"" }]
     return odpowiedz
