@@ -20,7 +20,8 @@ def handlePost(request):
             agreementContent = handle_uploaded_pdf_file(f)
         else:
             agreementContent = handle_uploaded_text_file(f)
-    return HttpResponse(template.render({'agreementContent': agreementContent}, request))
+    results = getResults(agreementContent)
+    return HttpResponse(template.render({'agreementContent': agreementContent, 'probability': 80, 'results': results}, request))
 
 def info(request):
     template = loader.get_template('Website/info.html')
@@ -30,3 +31,13 @@ def info(request):
 def contact(request):
     template = loader.get_template('Website/contact.html')
     return HttpResponse(template.render({}, request))
+
+def getResults(str):
+    return [
+        {'umowa':'Fragment umowy, fragment umowy, Fragment umowy, fragment um owy, Fragment umowy, fragment umowy,Fragment umowy, fragment umowy',
+         'klauzula': 'klauzula, klauzula, klauzula',
+         'odnosnik': 'odnosnik'},
+        {'umowa': 'Fragment umowy2, fragment umowy2',
+          'klauzula': 'klauzula3, klauzula2, klauzula2',
+          'odnosnik': 'odnosnik4'}
+    ]
