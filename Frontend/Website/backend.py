@@ -63,13 +63,41 @@ def crawly(umowa, klauzula, threshold):
            i += 1
    return -1, -1
 
+def unordered_crawly(umowa, klauzula, threshold):
+
+    klauzula_tmp = list(klauzula)
+
+    if (len(umowa) <= len(klauzula)):
+        return -1, -1
+    i, j , k, um_length, kl_length, counter = 0, 0, 0, len(umowa), len(klauzula), 0
+
+    while (i < um_length):
+        if (umowa[i] in klauzula_tmp):
+            k = i
+            while ((counter < threshold) & (i < um_length + 1)):
+                while ((umowa[i] in klauzula_tmp) & (j + 1 < kl_length) & (i + 1 < um_length)):
+                    klauzula_tmp.remove(umowa[i])
+                    j += 1
+                    i += 1
+                counter += 1
+                i += 1
+            if (j == kl_length - 1):
+                return (i + 1 - kl_length - counter, i)
+            else:
+                klauzula_tmp = klauzula
+                i = k + 1
+                j = 0
+                counter = 0
+        else:
+            i += 1
+    return -1, -1
 
 def odpalSzukanie(umowa_org, precyzja):
     umowa = umowa_org.split()
     odpowiedz = []
     for id_klauzula, klauzula in dane_klauzul.iteritems():
         klauzula_temp = klauzula.split()
-        result, end_poz = crawly(umowa, klauzula_temp, precyzja)
+        result, end_poz = unordered_crawly(umowa, klauzula_temp, precyzja)
         # print result
         if (result > -1):
             frg_umowy = umowa[result:end_poz]
