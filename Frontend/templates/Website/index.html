@@ -1,49 +1,25 @@
 {% extends "Website/base.html" %}
 
 {% block page %}
-<form action="/" method="post" enctype="multipart/form-data">
-<table><tr><td>
-    <div id="left">
-         <textarea rows="3" cols="36" placeholder="Wklej tekst umowy" name="pastedAgreement">{{ agreementText }}</textarea><br/>
-        <button type="submit" id='sprawdz' name="submit" class="btn btn-primary dropdown-toggle">Sprawdź</button>
+    <div class="page">
+        <form action="/" method="post" enctype="multipart/form-data">
+        <table><tr><td>
+            <div id="left">
+                 <textarea rows="3" cols="40" placeholder="Wklej tekst umowy" name="pastedAgreement">{{ agreementText }}</textarea><br/>
+                <button type="submit" id='sprawdz' name="submit" class="btn btn-primary dropdown-toggle">Sprawdź</button>
+            </div>
+            <div id="middle">
+                albo wgraj plik:
+            </div>
+            <div id="right">
+                <input type="file" name="fileToUpload" id="fileToUpload" class="btn btn-default btn-lg">
+            </div>
+        </td></tr></table>
+        <br/>
+        {% csrf_token %}
+        </form>
     </div>
-    <div id="middle">
-        albo wgraj plik:
-    </div>
-    <div id="right">
-        <input type="file" name="fileToUpload" id="fileToUpload" class="btn btn-default btn-lg">
-    </div>
-</td></tr></table>
-<br/>
-{% csrf_token %}
-</form>
 
-{% if probability %}
-    <div class="progress">
-      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{ probability }}%">
-        <span class="sr-only">40% Complete (success)</span>
-      </div>
-    </div>
-{% endif %}
-<table style="margin-left:3%;">
-<tr>
-<th>Umowa</th>
-<th>Klauzula</th>
-<th>odnosnik</th>
-</tr>
-{% for result in results %}
-    <tr>
-    <td style="width:40%; margin-right:3%;">
-{{ result.umowa }}&nbsp
-    </td>
-    <td style="width:35%; margin-right:3%;">
-        {{ result.klauzula }}&nbsp
-    </td>
-    <td style="width:10%">
-        {{ result.odnosnik }}&nbsp
-    </td>
-    </tr>
-{% endfor %}
-</table>
+    {% block results %} {% endblock %}
 
 {% endblock %}

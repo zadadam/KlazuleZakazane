@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 def make_rev_idx(file_name_csv):
     header=True
     kol_id=0
@@ -23,7 +26,9 @@ def make_rev_idx(file_name_csv):
             pass
     return klauzule_dict
 
-dane_klauzul = make_rev_idx(u"/Users/Marcin/dane_hackaton/KlazuleZakazane/RawData/out.csv")
+#dane_klauzul = make_rev_idx(u"/Users/Marcin/dane_hackaton/KlazuleZakazane/RawData/out.csv")
+dane_klauzul = make_rev_idx(u"../RawData/out.csv")
+
 
 def crawly(umowa, klauzula, threshold):
 
@@ -32,6 +37,8 @@ def crawly(umowa, klauzula, threshold):
         if (umowa[i]==klauzula[0]):
             k = i
             while (counter <= threshold):
+                print type(umowa[i])
+                print type(klauzula[j]) # to musi byc utf8
                 while ((umowa[i]==klauzula[j]) & (j + 1 < kl_length) & (i + 1 < um_length)):
                     j += 1
                     i += 1
@@ -54,6 +61,6 @@ def odpalSzukanie(umowa, precyzja):
     for id_klauzula, klauzula in dane_klauzul.iteritems():
         klauzula_temp = klauzula.split()
         result = crawly(umowa, klauzula_temp, precyzja)
-        if (result > -1): 
+        if (result > -1):
             odpowiedz[id_klauzula] = result
-    return odpowiedz    
+    return odpowiedz
