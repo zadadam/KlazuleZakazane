@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from .helper import handle_uploaded_text_file, handle_uploaded_pdf_file
+from backend import *
 
 
 def index(request):
@@ -33,11 +34,12 @@ def contact(request):
     return HttpResponse(template.render({}, request))
 
 def getResults(str):
-    return [
-        {'umowa':'Fragment umowy, fragment umowy, Fragment umowy, fragment um owy, Fragment umowy, fragment umowy,Fragment umowy, fragment umowy',
-         'klauzula': 'klauzula, klauzula, klauzula',
-         'odnosnik': 'odnosnik'},
-        {'umowa': 'Fragment umowy2, fragment umowy2',
-          'klauzula': 'klauzula3, klauzula2, klauzula2',
-          'odnosnik': 'odnosnik4'}
-    ]
+    return odpalSzukanie(str, 0)
+    # return [
+    #     {'umowa':'Fragment umowy, fragment umowy, Fragment umowy, fragment um owy, Fragment umowy, fragment umowy,Fragment umowy, fragment umowy',
+    #      'klauzula': 'klauzula, klauzula, klauzula',
+    #      'odnosnik': 'odnosnik'},
+    #     {'umowa': 'Fragment umowy2, fragment umowy2',
+    #       'klauzula': 'klauzula3, klauzula2, klauzula2',
+    #       'odnosnik': 'odnosnik4'}
+    # ]
