@@ -25,6 +25,7 @@ pol2eng = {
     u'\u2013' :'-',
     u'\xa7' : 's', # pownien byc znak paragrafu
     u'\u201d' : 'e',
+    u'\u201D' : '"',
     u'\u201e' : '"',
     u'\u2026' : '...',
 }

@@ -5,6 +5,7 @@ import datetime
 import json
 import re
 from simpleText import replacePol
+from getSAOS import getSOASjQuery
 
 data = "klauzule_min_160923.xlsx"
 out = "klauzulePython.json"
@@ -19,9 +20,10 @@ def sygnaturaAktDlaSAOS(syg):
     """zwracana krotka: <rzymskie> <kodSadu> <numer>/<rok>"""
     pattern = r'(\w+) (\w+)\s*(\d+)/(\d+)'
     m = re.findall(pattern, syg, re.LOCALE)
-    saos = ()
+    saos = ''
     if m:
-        saos = m[0]
+        krotka = m[0]
+        saos = getSOASjQuery(krotka[0], krotka[1], krotka[2], krotka[3])
         #print saos
     else:
         print "WARNING!!!"
@@ -37,6 +39,14 @@ def wersjeDoWyszukiwania(tekst):
     # teraz robimy uzmiennienie ze wzgledu na (...)
     protrojneKropki = (tekst.replace('(...)', '*')).replace('...','*')
     wersje['kropki'] = protrojneKropki
+
+    #uzmiennienie ze wzgledu na liczby
+    bezLiczb = re.sub("\d+", "*", protrojneKropki)
+    wersje['bezLiczb'] = bezLiczb
+
+    #wersje['slowa']
+    print bezLiczb
+    print
     #print wersje
     return wersje
 
