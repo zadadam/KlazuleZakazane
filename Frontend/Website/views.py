@@ -10,8 +10,8 @@ def index(request):
         template = loader.get_template('Website/index.html')
         return HttpResponse(template.render({'text': ''}, request))
 
+
 def handlePost(request):
-    template = loader.get_template('Website/index.html')
     if request.FILES == {}:
         agreementContent = request.POST.get('pastedAgreement')
     else:
@@ -21,7 +21,12 @@ def handlePost(request):
         else:
             agreementContent = handle_uploaded_text_file(f)
     results = getResults(agreementContent)
-    return HttpResponse(template.render({'agreementContent': agreementContent, 'probability': 80, 'results': results}, request))
+    if agreementContent == '':
+        template = loader.get_template('Website/index.html')
+    else:
+        template = loader.get_template('Website/results.html')
+    return HttpResponse(template.render({'agreementContent': agreementContent, 'results': results}, request))
+
 
 def info(request):
     template = loader.get_template('Website/info.html')
@@ -32,6 +37,7 @@ def contact(request):
     template = loader.get_template('Website/contact.html')
     return HttpResponse(template.render({}, request))
 
+
 def getResults(str):
     return [
         {'umowa':'Fragment umowy, fragment umowy, Fragment umowy, fragment um owy, Fragment umowy, fragment umowy,Fragment umowy, fragment umowy',
@@ -39,5 +45,19 @@ def getResults(str):
          'odnosnik': 'odnosnik'},
         {'umowa': 'Fragment umowy2, fragment umowy2',
           'klauzula': 'klauzula3, klauzula2, klauzula2',
+          'odnosnik': 'odnosnik4'},
+        {'umowa': 'Fragment umowy2, fragment umowy2',
+          'klauzula': 'klauzula3, klauzula2, klauzula2',
+          'odnosnik': 'odnosnik4'},
+        {'umowa': 'Fragment umowy2, fragment umowy2',
+          'klauzula': 'klauzula3, klauzula2, klauzula2',
+          'odnosnik': 'odnosnik4'},
+        {'umowa': 'Fragment umowy2, fragment umowy2',
+          'klauzula': 'klauzula3, klauzula2, klauzula2',
           'odnosnik': 'odnosnik4'}
     ]
+
+
+def list(request):
+    template = loader.get_template('Website/lista.html')
+    return HttpResponse(template.render({}, request))
