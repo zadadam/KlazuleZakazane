@@ -7,43 +7,47 @@
      <style type="text/css">
          #left {
             float: left;
-             margin-left: 2%;
+             margin-left: 3%;
          }
          #middle {
             float: left;
-             margin-left: 2%;
+             margin-left: 3%;
          }
          #right {
              float: left;
-             margin-left: 2%;
+             margin-left: 3%;
          }
          #logo, #sprawdz {
-             margin-left: 10%;
-         }
-         #menu {
-             position:fixed;
-             left: 0;
-             top: 0;
+             margin-top: 10px;
+             margin-left: 3%;
          }
          .menu-item {
+              margin-top: 60px;
               height: 50px;
          }
          ul {
              list-style-type: none;
              margin:0;
              padding:0;
-
-        };
-
+        }
+        #sprawdz {
+            margin-top: 10pt;
+            float: right;
+        }
+        body {
+            background-color: lightgrey;
+        }
      </style>
 </head>
 <body>
 {% load static %}
 
-<img src="http://students.mimuw.edu.pl/~pp277613/placehlder.svg" id="logo"/>&nbsp&nbsp&nbsp&nbsp&nbsp
-<a href="/"><img class="menu-item" src="http://students.mimuw.edu.pl/~pp277613/home.svg"/></a>&nbsp&nbsp
-<a href="info"><img class="menu-item" src="http://students.mimuw.edu.pl/~pp277613/info.svg"/></a>&nbsp&nbsp
-<a href="contact"><img class="menu-item" src="http://students.mimuw.edu.pl/~pp277613/mail.svg"/></a>&nbsp&nbsp
+<img src="{% static "blue_logo2.svg" %}" id="logo"/>&nbsp&nbsp
+<a href="/"><img class="menu-item" src="{% static "blue_paragraf.svg" %}"/></a>&nbsp&nbsp
+<a href="info"><img class="menu-item" src="{% static "blue_i.svg" %}"/></a>&nbsp&nbsp
+<a href="contact"><img class="menu-item"  src="{% static "blue_mail.svg" %}"/></a>
+
+<table width="50 "</table>
 <br/><br/>
 
 {% block page %} {% endblock %}
