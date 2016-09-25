@@ -1,0 +1,79 @@
+#left {
+    float: left;
+}
+#middle {
+    float: left;
+    margin-left: 3%;
+}
+#right {
+    float: left;
+    margin-left: 3%;
+}
+#logo {
+    margin-top: 10px;
+    margin-left: 5%;
+    margin-right: 8%;
+    height: 150px;
+}
+.menu-item {
+    margin-bottom: 18px;
+    margin-right: 1%;
+    vertical-align: bottom;
+    height: 46px;
+}
+ul {
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+#sprawdz {
+    margin-top: 10pt;
+    float: right;
+}
+body {
+    background-color: lightgrey;
+}
+.page {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+footer {
+    margin-top: 45px;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-top: 1px solid #eaeaea;
+    color: #999;
+}
+footer a {
+    color: #555;
+}
+footer a :hover {
+    color: #222;
+}
+
+footer small {
+    float: left;
+}
+footer ul {
+    float: right;
+    list-style: none;
+}
+footer ul li {
+    float: left;
+    margin-left: 10px;
+}
+
+#input {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eaeaea;
+    margin-right: 5%;
+}
+#output {
+     border-top: 1px solid #eaeaea;
+}
+.light-background {
+    background-color: #eaeaea;
+}

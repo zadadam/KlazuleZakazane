@@ -1,0 +1,35 @@
+{% extends "Website/index.html" %}
+
+{% block results %}
+<div id="output" class="page">
+{% if probability %}
+    <div class="progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: {{ probability }}%">
+        <span class="sr-only">40% Complete (success)</span>
+      </div>
+    </div>
+{% endif %}
+<table class="pure-table">
+<thead>
+<tr>
+<th>Umowa</th>
+<th>Klauzula</th>
+<th>odnosnik</th>
+</tr>
+</thead>
+{% for result in results %}
+    <tr class="{% cycle  'pure-table-odd' 'light-background' %}">
+    <td>
+{{ result.umowa }}
+    </td>
+    <td >
+        {{ result.klauzula }}&nbsp
+    </td>
+    <td>
+        {{ result.odnosnik }}&nbsp
+    </td>
+    </tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}
