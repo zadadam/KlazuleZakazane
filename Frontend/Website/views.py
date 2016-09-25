@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from .helper import handle_uploaded_text_file, handle_uploaded_pdf_file
+from backend import *
 
 
 def index(request):
@@ -57,7 +58,7 @@ def getResults(str):
           'odnosnik': 'odnosnik4'}
     ]
 
-
 def list(request):
     template = loader.get_template('Website/lista.html')
     return HttpResponse(template.render({}, request))
+
