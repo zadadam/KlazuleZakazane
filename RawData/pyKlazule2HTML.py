@@ -114,58 +114,58 @@ def grabData(sheet):
 
 
 def genSaosHTML(link):
-    return u'<a href="%s">Sprawdz SAOS</a>' % link
+    return u'<a href="%s" target="new_window">Sprawdz SAOS</a>' % link
 
 def writeOut(data, out):
     #calosc = u''
+    """<html>
+    <head>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    </head>
+    <body>"""
     calosc = u"""
-    <table class = 'pure-table'>
-        <tr>
-            <th><img src="https://uokik.gov.pl/img/d1df7e93b44210b96599fc24d70c5bc0.gif" height=109/></th>
-            <th><img src="https://www.saos.org.pl/static/image/saosLogo.png" height=109/></th>
-        </tr>
-    </table>
+    <img src="https://uokik.gov.pl/img/d1df7e93b44210b96599fc24d70c5bc0.gif" height=109/>
+    <img src="https://www.saos.org.pl/static/image/saosLogo.png" height=109/>
     <p>UWAGA system SAOS niestety w przypadku orzeczen klauzul nie dozwolonych nie jest kompletny!</p>
     <table class=\'pure-table\'> \n"""
     templateLin = u"""\t<tr %s >
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
-        <th>%s</th>
+        <td>%s</td>
+        <td>
+            Data Wyroku: %s <br/><br/>
+            Data Wpisu: %s <br/><br/>
+            Sygnatura: %s <br/>
+        </td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
+        <td>%s</td>
     </tr>"""
     calosc = calosc + u"""\t<tr>
         <th>Lp</th>
-        <th>Data wyroku</th>
-        <th>Syg.</th>
+        <th>Informacje</th>
         <th>SAOS</th>
         <th>Sad</th>
         <th>Powod</th>
         <th>Pozwany</th>
         <th>Postanowanie niedozwolone</th>
-        <th>Data wpisu</th>
-        <th>Uwagi</th>
         <th>Branza</th>
     </tr>\n"""
     ii = 0 
     data.reverse()
     for line in data:
         #calosc = u'
-        classText = u''
+        classText = u'class=\'light-background\''
         if ii % 2 == 0:
             classText = 'class=\'pure-table-odd\''
-        lin = templateLin % (classText, unicode(line[0]), line[1], line[2], genSaosHTML(sygnaturaAktDlaSAOS(line[2])), line[3], line[4],line[5],line[6],line[7],line[8],line[9])
+        lin = templateLin % (classText, unicode(line[0]), line[1], line[7], line[2], genSaosHTML(sygnaturaAktDlaSAOS(line[2])), line[3], line[4],line[5],line[6],line[9])
         calosc = calosc +lin
         ii = ii + 1
         #print u';'.join(l)
     #print data
-    calosc = calosc + u'</table> \n'
+    calosc = calosc + u'</table>'
+    """</body></html>\n"""
 
     file = codecs.open("klauzuleLista.html", "w", "utf-8")
     file.write(calosc)

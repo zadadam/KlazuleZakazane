@@ -117,18 +117,23 @@ def grabData(sheet):
 
 
 def writeOut(data, out):
+    calosc = u''
     for line in data:
         linia = u''
         for ii,e in enumerate(line):
             if ii != 0:
                 linia += u';'
             linia = linia + unicode(e)
-        print linia
+        calosc = calosc +linia +'\n'
         #print u';'.join(l)
     #print data
+
+    file = codecs.open("out.csv", "w", "utf-8")
+    file.write(calosc)
+    file.close()
     
 if __name__ == "__main__":
     wb = load_workbook(filename = 'klauzule_min_160923.xlsx')
     w = wb[wb.get_sheet_names()[0]]
     data = grabData(w)
-    #writeOut(data, out)
+    writeOut(data, out)

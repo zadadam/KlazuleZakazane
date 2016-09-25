@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def getSOASjQuery(tom, sad, numer, rok):
     """wszystko ma byc stringami"""
     urlTemplate = "https://www.saos.org.pl/search?signature=%s&all=%s&size=20&sort=JUDGMENT_DATE%%2Cdesc"
